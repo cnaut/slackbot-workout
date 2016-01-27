@@ -57,6 +57,13 @@
       "minReps": 20,
       "maxReps": 30,
       "units": "rep"
+    },
+    {
+      "id": 5,
+      "name": "burpees",
+      "minReps": 5,
+      "maxReps": 10,
+      "units": "rep"
     }
   ]
 }

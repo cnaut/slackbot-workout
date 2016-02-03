@@ -282,10 +282,15 @@ def isOfficeHours(bot):
 
 def main():
     bot = Bot()
+    office_hours_ended = False
 
     try:
         while True:
             if isOfficeHours(bot):
+		if office_hours_ended:
+	            print "Office hours started"
+                    requests.post(bot.post_URL, data="Office hours started")
+		    office_hours_ended = False
                 # Re-fetch config file if settings have changed
                 bot.setConfiguration()
 
@@ -296,6 +301,11 @@ def main():
                 assignExercise(bot, exercise)
 
             else:
+		if not office_hours_ended:
+		    print "Office hours ended"
+                    requests.post(bot.post_URL, data="Office hours ended")
+        	    saveUsers(bot)
+		    office_hours_ended = True
                 # Sleep the script and check again for office hours
                 if not bot.debug:
                     time.sleep(5*60) # Sleep 5 minutes

@@ -239,8 +239,9 @@ def isOfficeHours(bot):
             print "not office hours"
         return True
     now = datetime.datetime.now()
-    now_time = now.time()
-    if now_time >= datetime.time(bot.office_hours_begin) and now_time <= datetime.time(bot.office_hours_end):
+    now_time = now.time() 
+    weekday = datetime.datetime.today().weekday()
+    if now_time >= datetime.time(bot.office_hours_begin) and now_time <= datetime.time(bot.office_hours_end) and weekday != 6 and weekday != 5:
         if bot.debug:
             print "in office hours"
         return True

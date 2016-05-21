@@ -195,8 +195,9 @@ def assignExercise(bot, exercise):
     winner_announcement = str(exercise_reps) + " " + str(exercise["units"]) + " " + exercise["name"] + " RIGHT NOW "
 
     # EVERYBODY
-    if random.random() < bot.group_callout_chance:
-        winner_announcement += "@channel!"
+    #if random.random() < bot.group_callout_chance:
+    if 1 == 1:
+	winner_announcement += "@channel!"
 
         for user_id in bot.user_cache:
             user = bot.user_cache[user_id]
@@ -231,38 +232,6 @@ def logExercise(bot,username,exercise,reps,units):
         writer = csv.writer(f)
 
         writer.writerow([str(datetime.datetime.now()),username,exercise,reps,units,bot.debug])
-
-def saveUsers(bot):
-    # Write to the command console today's breakdown
-    s = "```\n"
-    #s += "Username\tAssigned\tComplete\tPercent
-    s += "Username".ljust(15)
-    for exercise in bot.exercises:
-        s += exercise["name"] + "  "
-    s += "\n---------------------------------------------------------------\n"
-
-    for user_id in bot.user_cache:
-        user = bot.user_cache[user_id]
-        s += user.username.ljust(15)
-        for exercise in bot.exercises:
-            if exercise["id"] in user.exercises:
-                s += str(user.exercises[exercise["id"]]).ljust(len(exercise["name"]) + 2)
-            else:
-                s += str(0).ljust(len(exercise["name"]) + 2)
-        s += "\n"
-
-        user.storeSession(str(datetime.datetime.now()))
-
-    s += "```"
-
-    if not bot.debug:
-        requests.post(bot.post_URL, data=s)
-    print s
-
-
-    # write to file
-    with open('user_cache.save','wb') as f:
-        pickle.dump(bot.user_cache,f)
 
 def isOfficeHours(bot):
     if not bot.office_hours_on:
@@ -304,7 +273,6 @@ def main():
 		if not office_hours_ended:
 		    print "Office hours ended"
                     requests.post(bot.post_URL, data="Office hours ended")
-        	    saveUsers(bot)
 		    office_hours_ended = True
                 # Sleep the script and check again for office hours
                 if not bot.debug:
@@ -314,7 +282,6 @@ def main():
                     time.sleep(5)
 
     except KeyboardInterrupt:
-        saveUsers(bot)
 
 
 main()
